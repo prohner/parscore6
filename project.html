@@ -1,0 +1,167 @@
+{% extends "master_page.html" %}
+{% block content %}
+
+{% ifequal user project.project_owner %}
+   <script type="text/javascript" charset="utf-8">
+      function formIsValid() {
+         var canSubmitForm = true;
+
+         if (document.theForm.language_used.value == "") {
+            alert("Please indicate the language used.");
+            canSubmitForm = false;
+         }
+
+         return canSubmitForm;
+      }
+   </script>
+
+   <form action="/save-project" name="theForm" method="post" onSubmit="return formIsValid();">
+   <input type="hidden" name="key" value="{{ project.key }}">
+{% endifequal %}
+<table border=0 cellspacing=3>
+   <tr>
+      <td class="project_label">
+         Project Owner:
+      </td>
+      <td class="project_data">
+         {{ user }}
+      </td>
+   </tr>
+   <tr>
+      <td class="project_label">
+         Researcher:
+      </td>
+      <td class="project_data">
+         <input type=text name="name_of_researcher" value="{{ project.name_of_researcher|default_if_none:"" }}" size="70">
+      </td>
+   </tr>
+   <tr>
+      <td class="project_label">
+         Name of Project:
+      </td>
+      <td class="project_data">
+         <input type=text name="project_title" value="{{ project.project_title|default_if_none:"" }}" size="70">
+      </td>
+   </tr>
+   <tr>
+      <td class="project_label">
+         City:
+      </td>
+      <td class="project_data">
+         <input type=text name="city" value="{{ project.city|default_if_none:"" }}" size="70">
+      </td>
+   </tr>
+   <tr>
+      <td class="project_label">
+         State/Province:
+      </td>
+      <td class="project_data">
+         <input type=text name="province" value="{{ project.province|default_if_none:"" }}" size="70">
+      </td>
+   </tr>
+   <tr>
+      <td class="project_label">
+         Country:
+      </td>
+      <td class="project_data">
+         <input type=text name="country" value="{{ project.country|default_if_none:"" }}" size="70">
+      </td>
+   </tr>
+   <tr>
+      <td class="project_label" nowrap>
+         Affiliated Institution:
+      </td>
+      <td class="project_data">
+         <input type=text name="affiliated_institution" value="{{ project.affiliated_institution|default_if_none:"" }}" size="70">
+      </td>
+   </tr>
+   <tr>
+      <td class="project_label">
+         Category of Research or Application
+         (check all that apply):
+      </td>
+      <td class="project_data">
+
+         {{ category_checkboxes }}
+
+      </td>
+   </tr>
+   <tr>
+      <td class="project_label">
+         Language Used:
+      </td>
+      <td class="project_data">
+         <input type="text" name="language_used" value="{{ project.language_used|default_if_none:"" }}">
+      </td>
+   </tr>
+   <tr>
+      <td class="project_label">
+         Measures Used:
+      </td>
+      <td class="project_data">
+         {{ measures_checkboxes }}
+      </td>
+   </tr>
+   <tr>
+      <td class="project_label">
+         Consent:
+      </td>
+      <td class="project_data">
+         <table>
+            <tr>
+               <td colspan=2>
+                  <div class="legalese">
+                  I agree to allow Rohner Research Publications and the Ronald and Nancy Rohner Center for the Study of Interpersonal Acceptance and Rejection to archive the data-set described below and to allow students, researchers, and practitioners free access to and use of these data for legitimate scholarly, research, and application purposes. I understand that I will be credited by name as author of these data whenever they are used in any manuscript for publication, conference presentations, or the like. I affirm that I have the right to allow these data to be used for the purposes stated above.
+                  </div>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <input type="radio" name="permission_granted" value="Yes"
+                     {% ifequal project.permission_granted "Yes" %}
+                        checked
+                     {% endifequal %}
+                  >
+               </td>
+               <td>
+                  I agree.
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <input type="radio" name="permission_granted" value="No"
+                     {% ifequal project.permission_granted "Yes" %}
+                     {% else %}
+                        checked
+                     {% endifequal %}
+                  >
+               </td>
+               <td>
+                  I do not agree.  If you do not agree please explain why in the box below:
+               </td>
+            </tr>
+            <tr>
+               <td>&nbsp;</td>
+               <td><input type="text" name="reason_not_agreeing" value="{{ project.reason_not_agreeing|default_if_none:"" }}" size="100" maxlength="250"></td>
+            </tr>
+         </table>
+      </td>
+   </tr>
+   {% ifequal user project.project_owner %}
+   <tr>
+      <td colspan=2 align=center>
+         <input type="submit" value="Save Project">
+      </td>
+   </tr>
+   {% endifequal %}
+</table>
+
+</form>
+<!--
+
+
+measures_used_in_project	= db.StringProperty()
+permission_granted			= db.StringProperty()
+-->
+
+{% endblock %}

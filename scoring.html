@@ -1,0 +1,451 @@
+{% extends "master_page.html" %}
+{% block content %}
+
+<style type="text/css">
+
+#hintbox{ /*CSS for pop up hint box */
+position:absolute;
+top: 0;
+background-color: lightyellow;
+width: 300px; /*Default width of hint.*/
+padding: 3px;
+border:1px solid black;
+font:normal 11px Verdana;
+line-height:18px;
+z-index:100;
+border-right: 3px solid black;
+border-bottom: 3px solid black;
+visibility: hidden;
+}
+
+.hintanchor{ /*CSS for link that shows hint onmouseover*/
+//font-weight: bold;
+//color: navy;
+margin: 3px 8px;
+}
+
+#development-only {
+  background-color: lightgray;
+  display:inline-block;
+}
+#development-only .watermark {
+  color: red;
+  position: relative;
+  top: 0; /* or whatever */
+  left: 30%; /* or whatever, position according to taste */
+  opacity: 0.5; /* Firefox, Chrome, Safari, Opera, IE >= 9 (preview) */
+  filter:alpha(opacity=50); /* for <= IE 8 */
+  display:inline-block;
+  white-space: nowrap;
+}
+
+</style>
+
+<script type="text/javascript">
+
+/***********************************************
+* Show Hint script- © Dynamic Drive (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit http://www.dynamicdrive.com/ for this script and 100s more.
+***********************************************/
+
+var horizontal_offset="9px" //horizontal offset of hint box from anchor link
+
+/////No further editting needed
+
+var vertical_offset="0" //horizontal offset of hint box from anchor link. No need to change.
+var ie=document.all
+var ns6=document.getElementById&&!document.all
+
+function getposOffset(what, offsettype){
+var totaloffset=(offsettype=="left")? what.offsetLeft : what.offsetTop;
+var parentEl=what.offsetParent;
+while (parentEl!=null){
+totaloffset=(offsettype=="left")? totaloffset+parentEl.offsetLeft : totaloffset+parentEl.offsetTop;
+parentEl=parentEl.offsetParent;
+}
+return totaloffset;
+}
+
+function iecompattest(){
+return (document.compatMode && document.compatMode!="BackCompat")? document.documentElement : document.body
+}
+
+function clearbrowseredge(obj, whichedge){
+var edgeoffset=(whichedge=="rightedge")? parseInt(horizontal_offset)*-1 : parseInt(vertical_offset)*-1
+if (whichedge=="rightedge"){
+var windowedge=ie && !window.opera? iecompattest().scrollLeft+iecompattest().clientWidth-30 : window.pageXOffset+window.innerWidth-40
+dropmenuobj.contentmeasure=dropmenuobj.offsetWidth
+if (windowedge-dropmenuobj.x < dropmenuobj.contentmeasure)
+edgeoffset=dropmenuobj.contentmeasure+obj.offsetWidth+parseInt(horizontal_offset)
+}
+else{
+var windowedge=ie && !window.opera? iecompattest().scrollTop+iecompattest().clientHeight-15 : window.pageYOffset+window.innerHeight-18
+dropmenuobj.contentmeasure=dropmenuobj.offsetHeight
+if (windowedge-dropmenuobj.y < dropmenuobj.contentmeasure)
+edgeoffset=dropmenuobj.contentmeasure-obj.offsetHeight
+}
+return edgeoffset
+}
+
+function showhint(menucontents, obj, e, tipwidth){
+tipwidth = 300;
+if ((ie||ns6) && document.getElementById("hintbox")){
+dropmenuobj=document.getElementById("hintbox")
+dropmenuobj.innerHTML=menucontents
+dropmenuobj.style.left=dropmenuobj.style.top=-500
+if (tipwidth!=""){
+dropmenuobj.widthobj=dropmenuobj.style
+dropmenuobj.widthobj.width=tipwidth
+}
+dropmenuobj.x=getposOffset(obj, "left")
+dropmenuobj.y=getposOffset(obj, "top")
+dropmenuobj.style.left=dropmenuobj.x-clearbrowseredge(obj, "rightedge")+obj.offsetWidth+"px"
+dropmenuobj.style.top=dropmenuobj.y-clearbrowseredge(obj, "bottomedge")+"px"
+dropmenuobj.style.visibility="visible"
+obj.onmouseout=hidetip
+}
+}
+
+function hidetip(e){
+dropmenuobj.style.visibility="hidden"
+dropmenuobj.style.left="-500px"
+}
+
+function createhintbox(){
+var divblock=document.createElement("div")
+divblock.setAttribute("id", "hintbox")
+document.body.appendChild(divblock)
+}
+
+if (window.addEventListener)
+window.addEventListener("load", createhintbox, false)
+else if (window.attachEvent)
+window.attachEvent("onload", createhintbox)
+else if (document.getElementById)
+window.onload=createhintbox
+
+</script>
+
+<table border=0 cellspacing=3>
+   <tr>
+      <td>
+         <div class="test_container">
+            <div class="test_group_title">Standard Form</div>
+            <div class="test_group">
+
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.AdultPARQControlFatherName }}" onMouseover="showhint('{{ TestBase.AdultPARQControlFatherNameLong }}', this, event, '350px')">Adult PARQ/Control: Father</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.AdultPARQControlFatherName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.AdultPARQControlMotherName }}" onMouseover="showhint('{{ TestBase.AdultPARQControlMotherNameLong }}', this, event, '350px')">Adult PARQ/Control: Mother</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.AdultPARQControlMotherName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.ParentPARQControlName }}" onMouseover="showhint('{{ TestBase.ParentPARQControlNameLong }}', this, event, '350px')">Parent PARQ/Control</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.ParentPARQControlName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.ChildPARQControlFatherName }}" onMouseover="showhint('{{ TestBase.ChildPARQControlFatherNameLong }}', this, event, '350px')">Child PARQ/Control: Father</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.ChildPARQControlFatherName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.ChildPARQControlMotherName }}" onMouseover="showhint('{{ TestBase.ChildPARQControlMotherNameLong }}', this, event, '350px')">Child PARQ/Control: Mother</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.ChildPARQControlMotherName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.PARQControlInfantName }}" onMouseover="showhint('{{ TestBase.PARQControlInfantNameLong }}', this, event, '350px')">Parent PARQ/Control: Infant</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.PARQControlInfantName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                <span class="test_link"><a href="/choose-project?test_name={{ TestBase.OARQControlName }}" onMouseover="showhint('{{ TestBase.OARQControlNameLong }}', this, event, '350px')">OAR/QC</a></span>
+                <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.OARQControlName }}">Show All Entries</a></span>
+             </div>
+          </div>
+         </div>
+      </td>
+      <td class="test_spacer">&nbsp;</td>
+      <td>
+         <div class="test_container">
+            <div class="test_group_title">Short Form</div>
+            <div class="test_group">
+
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.AdultPARQControlFatherShortName }}" onMouseover="showhint('{{ TestBase.AdultPARQControlFatherShortNameLong }}', this, event, '350px')">Adult PARQ/Control: Father</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.AdultPARQControlFatherShortName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.AdultPARQControlMotherShortName }}" onMouseover="showhint('{{ TestBase.AdultPARQControlMotherShortNameLong }}', this, event, '350px')">Adult PARQ/Control: Mother</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.AdultPARQControlMotherShortName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.ParentPARQControlShortName }}" onMouseover="showhint('{{ TestBase.ParentPARQControlShortNameLong }}', this, event, '350px')">Parent PARQ/Control</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.ParentPARQControlShortName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.ChildPARQControlFatherShortName }}" onMouseover="showhint('{{ TestBase.ChildPARQControlFatherShortNameLong }}', this, event, '350px')">Child PARQ/Control: Father</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.ChildPARQControlFatherShortName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.ChildPARQControlMotherShortName }}" onMouseover="showhint('{{ TestBase.ChildPARQControlMotherShortNameLong }}', this, event, '350px')">Child PARQ/Control: Mother</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.ChildPARQControlMotherShortName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.TeacherPARQControlShortName }}" onMouseover="showhint('{{ TestBase.TeacherPARQControlShortNameLong }}', this, event, '350px')">Teacher PARQ/Control</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.TeacherPARQControlShortName }}">Show All Entries</a></span>
+              </div>
+              <div class="test_menu_item">
+                <span class="test_link"><a href="/choose-project?test_name={{ TestBase.OARQControlShortName }}" onMouseover="showhint('{{ TestBase.OARQControlShortNameLong }}', this, event, '350px')">OAR/QC</a></span>
+                <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.OARQControlShortName }}">Show All Entries</a></span>
+            </div>
+        </div>
+         </div>
+      </td>
+   </tr>
+   <tr>
+      <td>
+         <div class="test_container">
+            <div class="test_group_title">Standard Form</div>
+            <div class="test_group">
+
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.ChildPARQFatherName }}" onMouseover="showhint('{{ TestBase.ChildPARQFatherNameLong }}', this, event, '350px')">Child PARQ: Father</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.ChildPARQFatherName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.ChildPARQMotherName }}" onMouseover="showhint('{{ TestBase.ChildPARQMotherNameLong }}', this, event, '350px')">Child PARQ: Mother</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.ChildPARQMotherName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.AdultPARQFatherName }}" onMouseover="showhint('{{ TestBase.AdultPARQFatherNameLong }}', this, event, '350px')">Adult PARQ: Father</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.AdultPARQFatherName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.AdultPARQMotherName }}" onMouseover="showhint('{{ TestBase.AdultPARQMotherNameLong }}', this, event, '350px')">Adult PARQ: Mother</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.AdultPARQMotherName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.ParentPARQName }}" onMouseover="showhint('{{ TestBase.ParentPARQNameLong }}', this, event, '350px')">Parent PARQ</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.ParentPARQName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.IARQName }}" onMouseover="showhint('{{ TestBase.IARQNameLong }}', this, event, '150px')">IARQ</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.IARQName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                <span class="test_link"><a href="/choose-project?test_name={{ TestBase.OARQName }}" onMouseover="showhint('{{ TestBase.OARQNameLong }}', this, event, '150px')">OARQ</a></span>
+                <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.OARQName }}">Show All Entries</a></span>
+           </div>
+          </div>
+         </div>
+      </td>
+      <td class="test_spacer">&nbsp;</td>
+      <td>
+         <div class="test_container">
+            <div class="test_group_title">Short Form</div>
+            <div class="test_group">
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.ChildPARQFatherShortName }}" onMouseover="showhint('{{ TestBase.ChildPARQFatherShortNameLong }}', this, event, '350px')">Child PARQ: Father</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.ChildPARQFatherShortName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.ChildPARQMotherShortName }}" onMouseover="showhint('{{ TestBase.ChildPARQMotherShortNameLong }}', this, event, '350px')">Child PARQ: Mother</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.ChildPARQMotherShortName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.AdultPARQFatherShortName }}" onMouseover="showhint('{{ TestBase.AdultPARQFatherShortNameLong }}', this, event, '350px')">Adult PARQ: Father</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.AdultPARQFatherShortName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.AdultPARQMotherShortName }}" onMouseover="showhint('{{ TestBase.AdultPARQMotherShortNameLong }}', this, event, '350px')">Adult PARQ: Mother</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.AdultPARQMotherShortName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.ParentPARQShortName }}" onMouseover="showhint('{{ TestBase.ParentPARQShortNameLong }}', this, event, '350px')">Parent PARQ</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.ParentPARQShortName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.IARQShortName }}" onMouseover="showhint('{{ TestBase.IARQShortNameLong }}', this, event, '150px')">IARQ</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.IARQShortName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.OARQShortName }}" onMouseover="showhint('{{ TestBase.OARQShortNameLong }}', this, event, '150px')">OARQ</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.OARQShortName }}">Show All Entries</a></span>
+             </div>
+          </div>
+         </div>
+      </td>
+   </tr>
+   <tr>
+      <td valign="top">
+         <div class="test_container">
+            <div class="test_group_title">Other</div>
+            <div class="test_group">
+
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.ChildPAQName }}" onMouseover="showhint('{{ TestBase.ChildPAQNameLong }}', this, event, '350px')">Child PAQ</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.ChildPAQName }}">Show All Entries</a></span>
+                  <br/>
+                  <span style="font-size: small;">Adult PAQ now has a short form. (use Child PAQ scoring sheet)</span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.AdultPAQName }}" onMouseover="showhint('{{ TestBase.AdultPAQNameLong }}', this, event, '150px')">Adult PAQ</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.AdultPAQName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.IPARCQName }}" onMouseover="showhint('{{ TestBase.IPARCQNameLong }}', this, event, '150px')">IPAR/CQ</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.IPARCQName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.IPAQName }}" onMouseover="showhint('{{ TestBase.IPAQNameLong }}', this, event, '150px')">IPAQ</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.IPAQName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.TESCName }}" onMouseover="showhint('{{ TestBase.TESCNameLong }}', this, event, '150px')">TESC</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.TESCName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.IRAQName }}" onMouseover="showhint('{{ TestBase.IRAQNameLong }}', this, event, '150px')">IRAQ</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.IRAQName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.SUQName }}" onMouseover="showhint('{{ TestBase.SUQNameLong }}', this, event, '150px')">SUQ</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.SUQName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.YouthThreePQName }}" onMouseover="showhint('{{ TestBase.YouthThreePQNameLong }}', this, event, '150px')">3PQ: Youth</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.YouthThreePQName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.AdultThreePQName }}" onMouseover="showhint('{{ TestBase.AdultThreePQNameLong }}', this, event, '150px')">3PQ: Adult</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.AdultThreePQName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.PECCName }}" onMouseover="showhint('{{ TestBase.PECCNameLong }}', this, event, '150px')">PECC</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.PECCName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.ILARQFatherInLawName }}" onMouseover="showhint('{{ TestBase.ILARQFatherInLawNameLong }}', this, event, '150px')">ILAR-CQ: Father-In-Law</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.ILARQFatherInLawName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.ILARQMotherInLawName }}" onMouseover="showhint('{{ TestBase.ILARQMotherInLawNameLong }}', this, event, '150px')">ILAR-CQ: Mother-In-Law</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.ILARQMotherInLawName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.GenderInequalityName }}" onMouseover="showhint('{{ TestBase.GenderInequalityNameLong }}', this, event, '150px')">Gender Inequality</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.GenderInequalityName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                 <span class="test_link"><a href="/choose-project?test_name={{ TestBase.IPARLSName }}" onMouseover="showhint('{{ TestBase.IPARLSNameLong }}', this, event, '150px')">IPARLS</a></span>
+                 <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.IPARLSName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.IRSSName }}" onMouseover="showhint('{{ TestBase.IRSSNameLong }}', this, event, '150px')">IRSS</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.IRSSName }}">Show All Entries</a></span>
+               </div>
+    
+
+
+               {% if is_development %}
+                  <div id="development-only">
+                    <div class="watermark">DEVELOPMENT ONLY</div>
+                  </div>
+               {% endif %}
+            </div>
+         </div>
+      </td>
+      <td class="test_spacer">&nbsp;</td>
+      <td valign="top">
+         <div class="test_container">
+            <div class="test_group_title">PPQ</div>
+            <div class="test_group">
+
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.YouthPPQMotherName }}" onMouseover="showhint('{{ TestBase.YouthPPQMotherNameLong }}', this, event, '150px')">Youth PPQ: Mother</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.YouthPPQMotherName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.YouthPPQFatherName }}" onMouseover="showhint('{{ TestBase.YouthPPQFatherNameLong }}', this, event, '150px')">Youth PPQ: Father</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.YouthPPQFatherName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.AdultPPQMotherName }}" onMouseover="showhint('{{ TestBase.AdultPPQMotherNameLong }}', this, event, '150px')">Adult PPQ: Mother</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.AdultPPQMotherName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.AdultPPQFatherName }}" onMouseover="showhint('{{ TestBase.AdultPPQFatherNameLong }}', this, event, '150px')">Adult PPQ: Father</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.AdultPPQFatherName }}">Show All Entries</a></span>
+               </div>
+               <div class="test_menu_item">
+                  <span class="test_link"><a href="/choose-project?test_name={{ TestBase.ParentPPQName }}" onMouseover="showhint('{{ TestBase.ParentPPQNameLong }}', this, event, '150px')">Parent PPQ</a></span>
+                  <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.ParentPPQName }}">Show All Entries</a></span>
+               </div>
+            </div>
+						<div class="test_group_title">ARQ</div>
+            <div class="test_group">
+              <div class="test_menu_item">
+                 <span class="test_link"><a href="/choose-project?test_name={{ TestBase.ESARQName }}" onMouseover="showhint('{{ TestBase.ESARQNameLong }}', this, event, '150px')">ESARQ</a></span>
+                 <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.ESARQName }}">Show All Entries</a></span>
+              </div>
+              <div class="test_menu_item">
+                 <span class="test_link"><a href="/choose-project?test_name={{ TestBase.ILARQName }}" onMouseover="showhint('{{ TestBase.ILARQNameLong }}', this, event, '150px')">ILARQ</a></span>
+                 <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.ILARQName }}">Show All Entries</a></span>
+              </div>
+              <div class="test_menu_item">
+                 <span class="test_link"><a href="/choose-project?test_name={{ TestBase.BestFriendARQName }}" onMouseover="showhint('{{ TestBase.BestFriendARQNameLong }}', this, event, '150px')">Best Friend ARQ</a></span>
+                 <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.BestFriendARQName }}">Show All Entries</a></span>
+              </div>
+              <div class="test_menu_item">
+                 <span class="test_link"><a href="/choose-project?test_name={{ TestBase.BestFriendARQShortName }}" onMouseover="showhint('{{ TestBase.BestFriendARQShortNameLong }}', this, event, '150px')">Best Friend ARQ (short)</a></span>
+                 <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.BestFriendARQShortName }}">Show All Entries</a></span>
+              </div>
+              <div class="test_menu_item">
+                 <span class="test_link"><a href="/choose-project?test_name={{ TestBase.EarlyChildhoodBFARQName }}" onMouseover="showhint('{{ TestBase.EarlyChildhoodBFARQNameLong }}', this, event, '150px')">Early Childhood BFARQ</a></span>
+                 <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.EarlyChildhoodBFARQName }}">Show All Entries</a></span>
+              </div>
+              <div class="test_menu_item">
+                 <span class="test_link"><a href="/choose-project?test_name={{ TestBase.ECARQShortFatherName }}" onMouseover="showhint('{{ TestBase.ECARQShortFatherNameLong }}', this, event, '150px')">ECARQ (short form): Father</a></span>
+                 <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.ECARQShortFatherName }}">Show All Entries</a></span>
+              </div>
+              <div class="test_menu_item">
+                 <span class="test_link"><a href="/choose-project?test_name={{ TestBase.ECARQShortMotherName }}" onMouseover="showhint('{{ TestBase.ECARQShortMotherNameLong }}', this, event, '150px')">ECARQ (short form): Mother</a></span>
+                 <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.ECARQShortMotherName }}">Show All Entries</a></span>
+              </div>
+              <div class="test_menu_item">
+                 <span class="test_link"><a href="/choose-project?test_name={{ TestBase.ILARQControlName }}" onMouseover="showhint('{{ TestBase.ILARQControlNameLong }}', this, event, '150px')">ILARQ/Control</a></span>
+                 <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.ILARQControlName }}">Show All Entries</a></span>
+              </div>
+              <!-- <div class="test_menu_item">
+                <span class="test_link"><a href="/choose-project?test_name={{ TestBase.SARQName }}" onMouseover="showhint('{{ TestBase.SARQNameLong }}', this, event, '150px')">SARQ</a></span>
+                <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.SARQName }}">Show All Entries</a></span>
+              </div>
+              <div class="test_menu_item">
+                <span class="test_link"><a href="/choose-project?test_name={{ TestBase.MARQCName }}" onMouseover="showhint('{{ TestBase.MARQCNameLong }}', this, event, '150px')">MARQ/C</a></span>
+                <span class="test_link_list"><a href="/list-test?test_name={{ TestBase.MARQCName }}">Show All Entries</a></span>
+              </div> -->
+            </div>
+         </div>
+      </td>
+   </tr>
+{% ifequal 0 1 %}
+   <tr>
+      <td>
+         <div class="test_container">
+            <div class="test_group_title">To Do</div>
+            <div>
+               <ul>
+                  <li>Need to know how to score IPAQ (what values are valid?)</li>
+                  <li>Need to know how to score IARQ (what values are valid?)</li>
+               </ul>
+            </div>
+         </div>
+      </td>
+   </tr>
+{% endifequal %}
+</table>
+
+
+
+{% endblock %}

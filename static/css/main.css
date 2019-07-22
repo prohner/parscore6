@@ -1,0 +1,144 @@
+BODY {
+	PADDING-RIGHT: 0px; 
+	PADDING-LEFT: 0px; 
+	PADDING-BOTTOM: 0px; 
+	MARGIN: 0px; 
+	PADDING-TOP: 0px; 
+	BACKGROUND-COLOR: #ffffff;
+	FONT: 12px verdana;
+}
+
+/* ======================================================== */
+/* Headers in master page */
+#header {
+	float:left; 
+	width:100%; 
+	background-color:#000066; 
+	background-repeat: no-repeat; 
+	background-position: 250px 0;
+	color:#ffffff;
+	font-size: 24px;
+	font-weight: bold;
+} 
+#head_logo {background:url(http://web2.uconn.edu/webtools/global/images/logo_blue.gif) no-repeat; float:left;}
+#head_site {background-color:transparent;} /* ie5.5 */
+#head_logo a, #head_site a, #top_line a {text-decoration:none; height:78px; display:block; text-indent:-5000px; }
+#head_logo a {width:250px;}
+#head_site a#top_line {height:0;}
+
+#nav_top {background-color:#CCCCCC; border:2px solid #ffffff; border-left:0; border-right:0; float:left; width:100%;}
+#nav_top ul, #nav_top li {margin:0; padding:0; list-style-type:none; float:left;}
+#nav_top a {xfont-size:.65em; display:block; text-transform:uppercase; letter-spacing:1px; text-decoration:none; padding:7px 10px; color:#000066; border:2px solid #cccccc; border-top:0; border-bottom:0;}
+#nav_top a:hover {background-color:#eeeeee; color:#999999; border-color:#FFFFFF;}
+
+/* ======================================================== */
+/* Test menu */
+.test_container {
+	width:400px;
+	xheight:40px;
+}
+
+.test_group {
+	background-color: #efefef;
+	font-size:16px;
+	padding-top:12px;
+}
+
+.test_group_title {
+	text-align:center;
+	font-weight:bold;
+	padding-top:0px;
+	margin-top:0px;
+	font-size:20px;
+	background-color: #000088;
+	color: #ffffff;
+}
+
+.test_menu_item {
+	width:400px;
+	height:30px;
+}
+
+.test_link {
+	xtext-align:left;
+	xdisplay:block;
+}
+
+.test_link a:hover {
+	background-color: #00ff00;
+}
+
+.test_link_list {
+	float:right;
+}
+
+.test_link_list a:hover {
+	background-color: #00ff00;
+}
+
+.XXXtest_link a {
+	display:block;
+	height:100%;
+	width:100%;
+}
+
+.test_spacer {
+	width:20px;
+}
+
+/* ======================================================== */
+/* Test form elements */
+.test_dimension_total {
+	text-align: center;
+	color: #0a0;
+}
+
+.test_data_cell {
+	text-align: center;
+	color: #00f;
+}
+
+.test_data_cell textarea:focus, input:focus {
+	border: 1px solid #900;
+	background-color: #FFFF9D;
+}
+.not_yet a:hover {
+	background-color: #ff0000;
+}
+
+.test_column_label {
+	background-color:#efefef;
+	text-align:center;
+}
+
+.test_label_cell {
+	text-align:right;
+}
+
+.error_messages {
+	text-align: left;
+	background-color: #ffdddd;
+}
+
+/* ======================================================== */
+/* Project form elements */
+.project_label {
+	vertical-align:text-top;
+}
+
+.project_data {
+	color: #0000ff;
+}
+
+.legalese {
+	font-size: 9px;
+}
+
+.approved {
+	background-color: #ddffdd;
+}
+
+
+.disapproved {
+	background-color: #ffdddd;
+}

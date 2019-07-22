@@ -1,0 +1,49 @@
+{% extends "./master_page.html" %}
+{% block content %}
+
+<h1 align="center">PARScore6 Help</h1>
+<p align="center"><a href="/video">See the video</a></p>
+<p align="center">&nbsp;</p>
+<p align="left">          Questionnaire types: PARScore6 offers a total of 42 measures. The questionnaire menu is presented on the initial window when the
+  program is launched. Any questionnaire on the menu can be chosen by selecting the
+  appropriate button and clicking &ldquo;OK&rdquo;.<br />
+  <br />
+  Entering data: PARScore6 will present the appropriate datasheet after choosing the
+  desired questionnaire type. The database will perform data validity check upon clicking
+  the &ldquo;Calculate&rdquo; button. During this check, the database will ensure that all fields are populated with appropriate data values. If any mismatch is detected, it will notify the
+  user to correct the data value(s) before moving forward.<br />
+  <br />
+  Calculating Results: After data entry is complete, clicking the &ldquo;Calculate&rdquo; button
+   will show
+  the value of all the individual items, the total score of each scale (wherever appropriate),
+  and the total test score. PARScore6 will automatically perform any reverse scoring that
+  may be necessary.<br />
+  <br />
+  Saving Results: The &ldquo;Save as&rdquo; option from the file menu allows the user to save the
+  results of response to any type of questionnaire. Files saved by PARScore6 will have          &ldquo;.par&rdquo; file extension. <br />
+  <br />
+  Opening File: Saved files can be opened by choosing &ldquo;Open&rdquo; from the file menu,
+  and then browsing to the appropriate location.<br />
+  <br />
+  Printing Results: Calculated results can be printed by choosing the &ldquo;Print&rdquo;
+  option from the file menu. The printed copy will be formatted exactly as it
+  appears on the screen.<br />
+  <br />
+  Switching questionnaire type: Questionnaire type can be changed by
+  clicking on &quot;Scoring the Measures&quot; and then choosing from the menu on the page. </p>
+<p align="left"> PARScore6 : Working with data files<br />
+  <br />
+  In PARScore6, data files can be used to compile a large number of responses to any questionnaire within a single file. Data files can then be exported to SPSS in order to
+  perform statistical analysis.<br />
+  <br />
+  Adding data to a new data file: The response to any questionnaire can be added
+  to a new data file by choosing &ldquo;Add data to new data file&rdquo; from the data menu. Data files
+  created by PARScore6 will have &ldquo;.dat&rdquo; extension.</p>
+<p align="left">Adding data to an existing data file: Calculated responses to any questionnaire can be added to an existing data file by choosing &ldquo;Add data to existing data file&rdquo; from the data pull down menu. If the current questionnaire type matches the questionnaire type of
+  the data file, then the data will be added. In case of a mismatch, an error message will appear explaining the reason for the failure.<br />
+  </p>
+<p align="left">Exporting data to SPSS: Choose &ldquo;Help on exporting data&rdquo; from the Help menu.</p>
+<p align="left">&nbsp;</p>
+<p align="center">&nbsp;</p>
+
+{% endblock %}

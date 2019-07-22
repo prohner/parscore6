@@ -1,0 +1,86 @@
+{% extends "master_page.html" %}
+
+{% block content %}
+
+<form action="/show-project" method="get">
+<br />&nbsp;<br />&nbsp;
+<table cellspacing=0 cellpadding=0 border=1 class="adminList">
+   {% if msg %}
+   <tr>
+      <td colspan=12 align=center>
+         <div class="display:inline;">
+            <div class="error_messages">
+               {{ msg }}
+            </div>
+         </div>
+      </td>
+   </tr>
+   {% endif %}
+	<tr>
+		<th colspan=12 style="FONT-WEIGHT: bold">Projects</th>
+	</tr>
+	<tr>
+		<td colspan=12 align="center"><input type="submit" value="Add Project"></td>
+	 </tr>
+		 <tr>
+		<th><a href="/list-projects?s=1">Researcher</a></th>
+		<th>Actions</th>
+		<th><a href="/list-projects?s=2">Project</a></th>
+		<th><a href="/list-projects?s=3">City</a></th>
+		<th><a href="/list-projects?s=4">State</a></th>
+		<th><a href="/list-projects?s=5">Country</a></th>
+		<th><a href="/list-projects?s=6">Institution</a></th>
+		<th><a href="/list-projects?s=7">Language</a></th>
+		<th>Consented?</th>
+		<th><a href="/list-projects?s=8">Owner</a></th>
+		<th><a href="/list-projects?s=9">Updated</th>
+		<th>Created</th>
+	</tr>
+	
+{% for project in projects %}
+	 <tr>
+	  <td>
+	      <a href="show-project?key={{ project.key|default_if_none:"" }}">
+	        {{ project.name_of_researcher|default_if_none:"Edit Project" }}
+	     </a>
+	  </td>
+	  <td nowrap>
+	     {% ifequal project.project_owner user %}
+   	     <a href="/list-test?p={{ project.key|default_if_none:"" }}">List Measures</a>
+   	     <br />
+   	     <a href="/download-chooser?p={{ project.key|default_if_none:"" }}">Download</a>
+	     {% else %}
+   	     {% ifequal is_admin_user 1 %}
+      	     <a href="/list-test?p={{ project.key|default_if_none:"" }}">List Measures</a>
+      	     <br />
+      	     <a href="/download-chooser?p={{ project.key|default_if_none:"" }}">Download</a>
+   	     {% else %}
+   	      &nbsp;
+   	     {% endifequal %}
+	     {% endifequal %}
+	  </td>
+	  <td>{{ project.project_title|default_if_none:"" }}</td>
+	  <td>{{ project.city|default_if_none:"" }}</td>
+	  <td>{{ project.province|default_if_none:"" }}</td>
+	  <td>{{ project.country|default_if_none:"" }}</td>
+	  <td>{{ project.affiliated_institution|default_if_none:"" }}</td>
+	  <td>{{ project.language_used|default_if_none:"" }}</td>
+	  <td
+        {% ifequal project.permission_granted "Yes" %}
+           class="approved"
+        {% else %}
+           class="disapproved"
+        {% endifequal %}
+     >
+     {{ project.permission_granted|default_if_none:"" }}<br />{{ project.reason_not_agreeing|default_if_none:"" }}</td>
+	  
+	  <td><a href="mailto:{{ project.project_owner.email }}">{{ project.project_owner.email }}</a></td>
+	  <td>{{ project.date_updated|timesince }} ago</td>
+	  <td>{{ project.date_added|timesince }} ago</td>
+	 </tr>
+{% endfor %}
+
+</table>
+
+</form>
+{% endblock %}

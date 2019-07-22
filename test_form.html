@@ -1,0 +1,146 @@
+{% extends "master_page.html" %}
+
+{% block content %}
+
+{% ifequal user t.test_owner %}
+   <form action="/save-test" method="get" name="testForm" onsubmit="return {{ t.form_validation_function }}(this);">
+{% endifequal %}
+
+<table border=0 cellspacing=0 cellpadding=0 align=center width="600">
+<tr>
+   <td colspan=21>
+      {{ t.test_name }}
+   </td>
+</td>
+{% if validation_messages %}
+<tr>
+   <td colspan=21 align=center>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <div class="display:inline;">
+         <div class="error_messages">
+            {{ validation_messages }}
+         </div>
+      </div>
+   </td>
+</tr>
+{% endif %}
+
+<tr>
+   <td colspan=4>
+      ID Number:
+   </td>
+   <td colspan=13>
+      <input type=text name="test_id" value="{{ t.test_id }}">
+      <input type=hidden name=test_name value="{{ t.test_name }}">
+      <input type=hidden name=key value="{{ t.key }}">
+   </td>
+   <td colspan=4>
+      {% if t.show_relationship_dropdown %}
+         Relationship:
+         <select name="relationship">
+            {% ifequal t.test_name t.ILARQName %}
+               <option value="Mother-in-Law" {% ifequal t.subject "Mother-in-Law" %}selected{% endifequal %}>Mother-in-Law
+               <option value="Father-in-Law" {% ifequal t.subject "Father-in-Law" %}selected{% endifequal %}>Father-in-Law
+            {% else %}
+               <option value="Mother" {% ifequal t.subject "Mother" %}selected{% endifequal %}>Mother
+               <option value="Father" {% ifequal t.subject "Father" %}selected{% endifequal %}>Father
+               <option value="Other"  {% ifequal t.subject "Other"  %}selected{% endifequal %}>Other
+            {% endifequal %}
+         </select>
+      {% endif  %}
+   </td>
+</tr>
+<tr>
+   <td colspan=4>
+      Project:
+   </td>
+   <td colspan=13>
+      <select name="project_key">
+         <option value="none"> -- Choose --
+      {% for project in projects %}
+            <option value="{{ project.key }}" {% ifequal project.key selected_project.key %}selected{% endifequal %}>{{ project.project_title }}
+      {% endfor  %}
+      </select>
+   </td>
+</tr>
+<tr>
+   <td colspan=4>
+      Sub-Project:
+   </td>
+   <td colspan=13>
+      <select name="subproject_key">
+         <option value="none"> -- Choose --
+      {% for subproject in subprojects %}
+            <option value="{{ subproject.key }}" {% ifequal subproject.key selected_subproject.key %}selected{% endifequal %}>{{ subproject.name_of_subproject }}
+      {% endfor  %}
+      </select>
+   </td>
+</tr>
+
+<tr>
+   <td colspan=21>&nbsp;</td>
+</tr>
+
+{{ h }}
+
+{% if t.score_messages_as_html %}
+<tr>
+   <td colspan=20 align=center>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <div class="display:inline;">
+         <div class="error_messages">
+            {{ t.score_messages_as_html }}
+         </div>
+      </div>
+   </td>
+</tr>
+{% endif %}
+<tr>
+   <td class="test_dimension_total">Scale Scores:</td>
+   <td class="test_dimension_total" colspan="2">{{ t.dimension1_score|default_if_none:"" }}</td>
+   <td class="test_column_spacer">&nbsp;</td>
+   <td class="test_dimension_total" colspan="3">{{ t.dimension2_score|default_if_none:"" }}</td>
+   <td class="test_column_spacer">&nbsp;</td>
+   <td class="test_dimension_total" colspan="3">{{ t.dimension3_score|default_if_none:"" }}</td>
+   <td class="test_column_spacer">&nbsp;</td>
+   <td class="test_dimension_total" colspan="3">{{ t.dimension4_score|default_if_none:"" }}</td>
+   <td class="test_column_spacer">&nbsp;</td>
+   <td class="test_dimension_total" colspan="3">{{ t.dimension5_score|default_if_none:"" }}</td>
+   <td class="test_column_spacer">&nbsp;</td>
+   <td class="test_dimension_total" colspan="3">{{ t.dimension6_score|default_if_none:"" }}</td>
+   <td class="test_column_spacer">&nbsp;</td>
+   <td class="test_dimension_total" colspan="3">{{ t.dimension7_score|default_if_none:"" }}</td>
+   <td class="test_column_spacer">&nbsp;</td>
+</tr>
+<tr>
+   <td class="test_dimension_total">Total Score:</td>
+   <td class="test_dimension_total" colspan="2">{{ t.score|default_if_none:"" }}</td>
+   <td class="test_column_spacer" colspan="24">&nbsp;</td>
+</tr>
+
+<tr>
+   <td colspan=15 align=center>
+      {% if can_edit_test %}
+            <input type=submit name="submit_button" value="Calculate and Save">
+      {% else %}
+            <a href="show-test?key={{ t.key }}&test_name={{ t.test_name }}&redo=y">Edit Response</a>
+      {% endif %}
+   </td>
+</tr>
+
+<tr>
+   <td colspan=15 align=center>
+         *=reverse scoring, but program does it automatically
+   </td>
+</tr>
+
+<tr>
+   <td colspan=15 align=center style="padding-top:20px;">
+      <a href="/show-test?test_name={{ t.test_name }}">New {{ t.test_name }} Form</a>
+   </td>
+</tr>
+
+</table>
+</form>
+
+{% endblock %}

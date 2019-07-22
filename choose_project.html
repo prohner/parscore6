@@ -1,0 +1,72 @@
+{% extends "master_page.html" %}
+
+{% block content %}
+<style>
+dt {
+   font-size: 17px;
+   text-transform: capitalize;
+}
+
+dd {
+   font-size: 13px;
+   text-transform: capitalize;
+}
+</style>
+<div style="background-color:#eee">
+   <h2>Adding <i>{{ test_name }}</i> measure.  
+      <br />Choose the project or sub-project to add to...</h2>
+</div>
+
+<dl>
+{% for project in projects %}
+   <div>
+   <dt><a href="/show-test?test_name={{ test_name }}&project={{ project.key }}">{{ project.project_title }}</a></dt>
+   {% for subproject in project.get_sub_projects %}
+      <dd>
+         <a href="/show-test?test_name={{ test_name }}&project={{ project.key }}&subproject={{ subproject.key }}">{{ subproject.name_of_subproject }}</a>
+      </dd>
+   {% endfor %}
+   <dd>&nbsp;</dd>
+   <dd>
+      <form action="/add_sub_project" method="get">
+      <input type="hidden" name="project_key" value="{{ project.key }}">
+      <input type="hidden" name="test_name" value="{{ test_name }}">
+      <input type="text" name="subproject_name" placeholder="Name of new sub-project" size=40><input type="submit" value="Add to {{ project.project_title }}">
+      </form>
+   </dd>
+   <dd>&nbsp;</dd>
+   </div>
+{% endfor %}
+</dl>
+{% ifequal 0 1 %}
+<hr size="1">
+
+<form action="/show-project" method="get">
+
+<div style="background-color:#bbb">
+<dl>
+   <dt><h2 style="display:inline;">Farah's Comparative Study --</h2> <input type="submit" value="Add Adult PARQ/Control: Father"></dt>
+   <dd>U.S. Respondents -- <input type="submit" value="Add Adult PARQ/Control: Father"></dd>
+   <dd>Pakistani Respondents -- <input type="submit" value="Add Adult PARQ/Control: Father"></dd>
+   <dd><input type="text" value="Name of new sub-project" size=40><input type="submit" value="Add Adult PARQ/Control: Father"></dd>
+   <dt><h2 style="display:inline;">Farah's Other Project --</h2> <input type="submit" value="Add Adult PARQ/Control: Father"></dd>
+</dl>
+</div>
+</form>
+
+<hr size="1">
+
+<div style="background-color:#eee">
+   <h2>Adding <i>Adult PARQ/Control: Father</i> measure.  
+      <br />Choose the project or sub-project to add to...</h2>
+<dl>
+   <dt><a href="">Farah's Comparative Study</a></dt>
+   <dd><a href="">U.S. Respondents</a></dd>
+   <dd><a href="">Pakistani Respondents</a></dd>
+   <dd><input type="text" value="Name of new sub-project" size=40><input type="submit" value="Add to Farah's Comparative Study"></dd>
+   <dt><a href="">Farah's Other Project</a></dd>
+</dl>
+</div>
+{% endifequal %}
+
+{% endblock %}

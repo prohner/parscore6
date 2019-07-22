@@ -1,0 +1,45 @@
+{% extends "master_page.html" %}
+
+{% block content %}
+
+<table cellspacing=0 cellpadding=0 border=1 class="adminList">
+	<tr>
+		<th colspan=9 style="FONT-WEIGHT: bold">Questionnaires</th>
+	</tr>
+	<tr>
+		<th>Project</th>
+		<th>ID</th>
+		<th>Test</th>
+		<th>Subject</th>
+		<th>Respondent</th>
+		<th>Score</th>
+		<th>Messages</th>
+		<th>Owner</th>
+		<th>Updated</th>
+	</tr>
+	
+{% for test in tests %}
+	 <tr>
+  	  <td>
+  	     <span style="font-size:14px;">{{ test.project.project_title|default_if_none:"" }}</span>
+  	     {% if test.subproject %}
+  	      <br/><span style="font-size:10px;">{{ test.subproject.name_of_subproject|default_if_none:"" }}</span>
+  	     {% endif %}
+  	  </td>
+	  <td>
+	      <a href="show-test?key={{ test.key|default_if_none:"" }}&test_name={{ test.test_name }}">
+	        {{ test.test_id }}
+	     </a>
+	  </td>
+	  <td>{{ test.test_name|default_if_none:"" }}</td>
+	  <td>{{ test.subject|default_if_none:"" }}</td>
+	  <td>{{ test.respondent|default_if_none:"" }}</td>
+	  <td align="right">{{ test.score }}</td>
+	  <td>{{ test.score_messages_as_html }}</td>
+	  <td>{{ test.test_owner|default_if_none:"What's up? No owner???" }}</td>
+	  <td>{{ test.date_updated|timesince }} ago</td>
+	 </tr>
+{% endfor %}
+
+</table>
+{% endblock %}

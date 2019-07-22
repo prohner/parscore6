@@ -1,0 +1,43 @@
+{% extends "master_page.html" %}
+
+{% block content %}
+<style>
+p {
+   font-size: 17px;
+}
+
+dt {
+   font-size: 17px;
+   text-transform: capitalize;
+}
+
+dd {
+   font-size: 13px;
+   text-transform: capitalize;
+}
+
+.response_counts {
+   font-size: 14px;
+   color: #666;
+}
+</style>
+
+<p>
+   Choose set of measures to download from <em>{{ project.project_title|default_if_none:"<i>Unknown</i>" }}</em>:
+</p>
+<dl>
+
+{% for test_name in test_names %}
+   <dt>
+         <a href="/download-set?p={{ project.key }}&n={{ test_name.0 }}">{{ test_name.0 }}</a> 
+         <span class="response_counts">({{ test_name.1 }} response{{ test_name.1|pluralize }})</span>
+         {% if is_development %}
+         <span class="response_counts"><font size=1>(<a href="/download-set?p={{ project.key }}&n={{ test_name.0 }}&dnld=n">dnld to screen</a> (dev system only))</font></span>
+         {% endif %}
+         
+   </dt>
+{% endfor %}
+
+</dl>
+
+{% endblock %}
